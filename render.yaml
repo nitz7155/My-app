@@ -5,6 +5,7 @@ services:
     name: postgres-db
     plan: free
     region: singapore
+    env: postgresql
 
   # ===== FastAPI Backend =====
   - type: web
