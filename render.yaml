@@ -1,14 +1,11 @@
 # render.yaml
-# Render Blueprint - 전체 스택을 한 번에 배포
-
 services:
   # ===== PostgreSQL Database =====
   - type: pserv
     name: postgres-db
     plan: free
-    region: singapore  # 또는 oregon (가까운 지역 선택)
-    ipAllowList: []  # 모든 IP 허용 (내부 서비스 접근용)
-
+    region: singapore
+    # ❌ ipAllowList 제거 (pserv는 지원 안 함)
 
   # ===== FastAPI Backend =====
   - type: web
@@ -16,40 +13,16 @@ services:
     runtime: docker
     plan: free
     region: singapore
-    branch: main  # 배포할 Git 브랜치
-    # backend 폴더만 사용
+    branch: main
     rootDir: backend
     dockerfilePath: ./Dockerfile
     dockerContext: ./backend
-    # Health check
     healthCheckPath: /
-    # 환경변수
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: postgres-db
           property: connectionString
-      - key: DB_NAME
-        fromDatabase:
-          name: postgres-db
-          property: database
-      - key: DB_USER
-        fromDatabase:
-          name: postgres-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: postgres-db
-          property: password
-      - key: DB_HOST
-        fromDatabase:
-          name: postgres-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: postgres-db
-          property: port
-    # 자동 배포 활성화
     autoDeploy: true
 
   # ===== React Frontend =====
@@ -59,17 +32,13 @@ services:
     plan: free
     region: singapore
     branch: main
-    # frontend 폴더만 사용
     rootDir: frontend
     dockerfilePath: ./Dockerfile
     dockerContext: ./frontend
-    # 환경변수
     envVars:
       - key: REACT_APP_API_URL
-        # Backend의 URL을 동적으로 가져오기
-        fromService:
-          type: web
-          name: fastapi-backend
-          property: url
-    # 자동 배포 활성화
+        # ❌ url 속성 없음!
+        # ✅ 수동으로 Backend URL 입력하거나
+        # ✅ 배포 후 Environment에서 설정
+        value: https://fastapi-backend.onrender.com
     autoDeploy: true
