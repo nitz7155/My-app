@@ -1,12 +1,10 @@
 # render.yaml
-services:
-  # ===== PostgreSQL Database =====
-  - type: pserv
-    name: postgres-db
+databases:
+  - name: postgres-db
     plan: free
     region: singapore
-    env: postgresql
 
+services:
   # ===== FastAPI Backend =====
   - type: web
     name: fastapi-backend
