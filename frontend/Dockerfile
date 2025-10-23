@@ -2,7 +2,11 @@
 FROM node:22-alpine AS builder
 
 # 📁 작업 디렉토리 설정 (빌드 스테이지에서 사용)
-WORKDIR /app
+WORKDIR /frontend
+
+# 빌드 시점에 환경변수 받기
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 # 📦 package.json과 package-lock.json만 먼저 복사
 # 이유: 의존성이 변경되지 않으면 Docker 캐시를 재사용하여 빌드 속도 향상
@@ -16,7 +20,7 @@ RUN npm ci
 COPY . .
 
 # 🏗️ 프로덕션 빌드 실행 (dist 또는 build 폴더에 결과물 생성)
-# Vite의 경우 /app/dist에 빌드 결과가 생성됨
+# Vite의 경우 /frontend/dist에 빌드 결과가 생성됨
 RUN npm run build
 
 # ============================================================
@@ -25,16 +29,17 @@ RUN npm run build
 FROM node:22-alpine
 
 # 📁 작업 디렉토리 설정 (프로덕션 스테이지에서 사용)
-WORKDIR /app
+# WORKDIR /app
+WORKDIR /frontend
 
 # 🌐 serve 패키지를 전역으로 설치 (정적 파일 서빙용)
 # serve는 가볍고 빠른 정적 파일 서버
 RUN npm install -g serve
 
 # 📦 빌드 스테이지에서 빌드된 결과물만 복사
-# /app/dist (builder 스테이지) → /app/dist (현재 스테이지)
+# /frontend/dist (builder 스테이지) → /frontend/dist (현재 스테이지)
 # 이렇게 하면 node_modules, 소스 코드 등 불필요한 파일은 제외됨
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /frontend/dist ./dist
 
 # 🔓 3000번 포트를 외부에 노출
 # 실제로 포트를 여는 것은 아니고, 문서화 목적 (docker-compose에서 매핑 필요)

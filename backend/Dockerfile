@@ -10,13 +10,21 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # pip 업그레이드
-RUN pip install --upgrade pip
+RUN pip install --no-cache-dir --upgrade pip
+
+# uv 설치 
+# RUN pip install uv
+# COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # 의존성 파일만 먼저 복사 (캐싱 최적화)
-COPY pyproject.toml ./
+# COPY pyproject.toml uv.lock ./
+COPY requirement.txt ./
 
 # 의존성 설치
-RUN pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv
+# RUN pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv
+# RUN uv pip install --system .
+# RUN uv sync --frozen --no-dev  -> 가상환경 사용 
+RUN pip install --no-cache-dir -r requirement.txt
 
 # 소스 코드 복사
 COPY . .

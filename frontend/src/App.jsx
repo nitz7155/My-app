@@ -7,7 +7,7 @@ function App() {
   const [editingId, setEditingId] = useState(null)
   const [editingData, setEditingData] = useState({})
 
-  const API_URL = 'http://localhost:8000'
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
   useEffect(() => {
     fetchPosts()

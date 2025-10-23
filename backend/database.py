@@ -11,16 +11,17 @@ from pathlib import Path
 # 환경변수 설정
 ENV_PATH = Path(__file__).parent / '.env'
 load_dotenv(ENV_PATH)
-DB_USER = os.getenv("DB_USER", "user")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_NAME = os.getenv("DB_NAME", "database_name")
 
-# URL 설정
-# DB_URL = "sqlite:///database.db" # 파일 기반의 database일대 '/' 3개 (상대 경로)
-DB_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
-print(ENV_PATH)
-print("########", DB_URL)
+# Render에서는 DATABASE_URL을 직접 제공하므로 우선적으로 사용
+DB_URL = os.getenv("DATABASE_URL")
+
+if not DB_URL:
+    # 로컬 개발환경에서는 개별 환경변수 사용
+    DB_USER = os.getenv("DB_USER", "user")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
+    DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_NAME = os.getenv("DB_NAME", "database_name")
+    DB_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 
 # 엔진
 engine = create_engine(
