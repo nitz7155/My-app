@@ -8,9 +8,7 @@ services:
     plan: free
     region: singapore  # 또는 oregon (가까운 지역 선택)
     ipAllowList: []  # 모든 IP 허용 (내부 서비스 접근용)
-    databases:
-      - name: file_db
-        user: jihyeok
+
 
   # ===== FastAPI Backend =====
   - type: web
