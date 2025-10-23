@@ -1,11 +1,12 @@
 # render.yaml
 services:
   # ===== PostgreSQL Database =====
-  - type: postgres
+  - type: pserv
     name: postgres-db
     plan: free
     region: singapore
-    ipAllowList: []
+    databaseName: mydb
+    databaseUser: myuser
 
   # ===== FastAPI Backend =====
   - type: web
