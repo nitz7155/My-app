@@ -1,11 +1,11 @@
 # render.yaml
 services:
   # ===== PostgreSQL Database =====
-  - type: pserv
+  - type: postgres
     name: postgres-db
     plan: free
     region: singapore
-    # ❌ ipAllowList 제거 (pserv는 지원 안 함)
+    ipAllowList: []
 
   # ===== FastAPI Backend =====
   - type: web
@@ -16,7 +16,7 @@ services:
     branch: main
     rootDir: backend
     dockerfilePath: ./Dockerfile
-    dockerContext: ./backend
+    dockerContext: .
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
@@ -34,11 +34,11 @@ services:
     branch: main
     rootDir: frontend
     dockerfilePath: ./Dockerfile
-    dockerContext: ./frontend
+    dockerContext: .
     envVars:
       - key: REACT_APP_API_URL
-        # ❌ url 속성 없음!
-        # ✅ 수동으로 Backend URL 입력하거나
-        # ✅ 배포 후 Environment에서 설정
-        value: https://fastapi-backend.onrender.com
+        fromService:
+          type: web
+          name: fastapi-backend
+          property: host
     autoDeploy: true
