@@ -4,9 +4,15 @@ FROM node:22-alpine AS builder
 # 📁 작업 디렉토리 설정 (빌드 스테이지에서 사용)
 WORKDIR /frontend
 
-# 빌드 시점에 환경변수 받기
-ARG REACT_APP_API_URL
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
+# 🔑 빌드 시점에 환경변수 받기 (중요!)
+# React는 빌드 타임에 환경변수를 정적 파일에 포함시킴
+# 런타임에는 이미 컴파일된 JS 파일이므로 환경변수 변경 불가
+# 따라서 Docker 빌드할 때 반드시 환경변수를 전달해야 함
+# 
+# ARG: 빌드 시점에만 사용 (render.yaml에서 전달)
+# ENV: 빌드된 애플리케이션 내부에서 사용할 환경변수로 설정
+ARG API_SERVER_URL
+ENV VITE_API_URL=$API_SERVER_URL
 
 # 📦 package.json과 package-lock.json만 먼저 복사
 # 이유: 의존성이 변경되지 않으면 Docker 캐시를 재사용하여 빌드 속도 향상

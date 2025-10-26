@@ -7,6 +7,11 @@ function App() {
   const [editingId, setEditingId] = useState(null)
   const [editingData, setEditingData] = useState({})
 
+  // 🌐 API 서버 URL 설정
+  // Vite에서는 import.meta.env로 환경변수 접근 (React의 process.env와 다름)
+  // VITE_ 접두사가 붙은 환경변수만 클라이언트에서 접근 가능 (보안상 이유)
+  // 빌드 시점에 환경변수가 정적으로 치환되어 번들에 포함됨
+  // 로컬 개발시 fallback으로 localhost:8000 사용
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
   useEffect(() => {
