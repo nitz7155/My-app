@@ -16,20 +16,25 @@ ENV_PATH = Path(__file__).parent / '.env'
 load_dotenv(ENV_PATH)
 
 # 환경변수 가져오기 
-PROD_ORIGIN=os.getenv('REACT_ORIGIN')
-DEV_ORIGIN=os.getenv('DEV_ORIGIN')
+react_host = os.getenv('REACT_HOST', "react-server")
+PROD_ORIGIN = f"https://{react_host}.onrender.com"
+DEV_ORIGIN = os.getenv('DEV_ORIGIN', 'http://localhost:3000')
 
 # 🔍 디버깅용 - CORS 설정 확인
+print(f"REACT_HOST: {react_host}")
 print(f"PROD_ORIGIN (React 서버): {PROD_ORIGIN}")
 print(f"DEV_ORIGIN (로컬 개발): {DEV_ORIGIN}")
 
 app = FastAPI()
 
 # CORS 설정
+allowed_origins = [DEV_ORIGIN]
+if PROD_ORIGIN:
+    allowed_origins.append(PROD_ORIGIN)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[DEV_ORIGIN, 
-                   PROD_ORIGIN],  
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

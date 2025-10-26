@@ -21,7 +21,11 @@ projects:
                 fromDatabase: 
                   name: postgres-db
                   property: connectionString
-              - fromGroup: My-app-env
+              - key: REACT_HOST
+                fromService: 
+                  type: web
+                  name: react-server
+                  property: host
             autoDeploy: true
 
           - type: web 
@@ -34,5 +38,9 @@ projects:
             dockerfilePath: ./Dockerfile
             dockerContext: .
             envVars: 
-              - fromGroup: My-app-env
+              - key: FASTAPI_HOST
+                fromService: 
+                  type: web
+                  name: fastapi-server
+                  property: host
             autoDeploy: true

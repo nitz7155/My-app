@@ -8,14 +8,13 @@ function App() {
   const [editingData, setEditingData] = useState({})
 
   // 🌐 API 서버 URL 설정
-  // Vite에서는 import.meta.env로 환경변수 접근 (React의 process.env와 다름)
-  // VITE_ 접두사가 붙은 환경변수만 클라이언트에서 접근 가능 (보안상 이유)
-  // 빌드 시점에 환경변수가 정적으로 치환되어 번들에 포함됨
-  // 로컬 개발시 fallback으로 localhost:8000 사용
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  
+  // Render에서 host만 받아서 완전한 HTTPS URL로 재조합
+  // 로컬 개발시에는 localhost:8000 사용
+  const fastApiHost = import.meta.env.VITE_FASTAPI_HOST
+  const API_URL = fastApiHost ? `https://${fastApiHost}.onrender.com` : 'http://localhost:8000'
+ 
   // 🔍 디버깅용 - 실제 사용하는 API URL 확인
-  console.log('환경변수 VITE_API_URL:', import.meta.env.VITE_API_URL)
+  console.log('환경변수 VITE_FASTAPI_HOST:', fastApiHost)
   console.log('실제 사용하는 API_URL:', API_URL)
 
   useEffect(() => {
@@ -34,6 +33,10 @@ function App() {
 
   const createPost = async (e) => {
     e.preventDefault()
+    console.log('🚀 Create 버튼 클릭됨')
+    console.log('📤 전송할 데이터:', { title, content })
+    console.log('📡 요청 URL:', `${API_URL}/posts`)
+    
     try {
       const response = await fetch(`${API_URL}/posts`, {
         method: 'POST',
@@ -42,13 +45,22 @@ function App() {
         },
         body: JSON.stringify({ title, content }),
       })
+      
+      console.log('📨 응답 상태:', response.status)
+      console.log('📨 응답 OK?:', response.ok)
+      
       if (response.ok) {
+        const result = await response.json()
+        console.log('✅ 성공 응답:', result)
         setTitle('')
         setContent('')
         fetchPosts()
+      } else {
+        const errorText = await response.text()
+        console.error('❌ 응답 에러:', response.status, errorText)
       }
     } catch (error) {
-      console.error('Error creating post:', error)
+      console.error('❌ 네트워크 에러:', error)
     }
   }
 
