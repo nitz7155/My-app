@@ -38,7 +38,7 @@ projects:
             dockerfilePath: ./Dockerfile
             dockerContext: .
             envVars: 
-              - key: FASTAPI_HOST
+              - key: VITE_FASTAPI_HOST
                 fromService: 
                   type: web
                   name: fastapi-server

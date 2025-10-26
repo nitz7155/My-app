@@ -11,8 +11,8 @@ WORKDIR /frontend
 # 
 # ARG: 빌드 시점에만 사용 (render.yaml에서 전달)
 # ENV: 빌드된 애플리케이션 내부에서 사용할 환경변수로 설정
-ARG FASTAPI_HOST
-ENV VITE_FASTAPI_HOST=$FASTAPI_HOST
+ARG VITE_FASTAPI_HOST
+ENV VITE_FASTAPI_HOST=$VITE_FASTAPI_HOST
 
 # 📦 package.json과 package-lock.json만 먼저 복사
 # 이유: 의존성이 변경되지 않으면 Docker 캐시를 재사용하여 빌드 속도 향상

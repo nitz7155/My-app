@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { API_BASE_URL } from './api/config';
 
 function App() {
   const [posts, setPosts] = useState([])
@@ -10,12 +11,11 @@ function App() {
   // 🌐 API 서버 URL 설정
   // Render에서 host만 받아서 완전한 HTTPS URL로 재조합
   // 로컬 개발시에는 localhost:8000 사용
-  const fastApiHost = import.meta.env.VITE_FASTAPI_HOST
-  const API_URL = fastApiHost ? `https://${fastApiHost}.onrender.com` : 'http://localhost:8000'
- 
+  // const fastApiHost = import.meta.env.VITE_FASTAPI_HOST
+  // const API_URL = fastApiHost ? `https://${fastApiHost}.onrender.com` : 'http://localhost:8000'
+  
   // 🔍 디버깅용 - 실제 사용하는 API URL 확인
-  console.log('환경변수 VITE_FASTAPI_HOST:', fastApiHost)
-  console.log('실제 사용하는 API_URL:', API_URL)
+  console.log('실제 사용하는 API_URL:', API_BASE_URL)
 
   useEffect(() => {
     fetchPosts()
@@ -23,7 +23,7 @@ function App() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${API_URL}/posts`)
+      const response = await fetch(`${API_BASE_URL}/posts`)
       const data = await response.json()
       setPosts(data)
     } catch (error) {
@@ -33,12 +33,12 @@ function App() {
 
   const createPost = async (e) => {
     e.preventDefault()
-    console.log('🚀 Create 버튼 클릭됨')
-    console.log('📤 전송할 데이터:', { title, content })
-    console.log('📡 요청 URL:', `${API_URL}/posts`)
+    // console.log('🚀 Create 버튼 클릭됨')
+    // console.log('📤 전송할 데이터:', { title, content })
+    // console.log('📡 요청 URL:', `${API_BASE_URL}/posts`)
     
     try {
-      const response = await fetch(`${API_URL}/posts`, {
+      const response = await fetch(`${API_BASE_URL}/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,8 +46,8 @@ function App() {
         body: JSON.stringify({ title, content }),
       })
       
-      console.log('📨 응답 상태:', response.status)
-      console.log('📨 응답 OK?:', response.ok)
+      // console.log('📨 응답 상태:', response.status)
+      // console.log('📨 응답 OK?:', response.ok)
       
       if (response.ok) {
         const result = await response.json()
@@ -66,7 +66,7 @@ function App() {
 
   const updatePost = async (id, updatedTitle, updatedContent) => {
     try {
-      const response = await fetch(`${API_URL}/posts/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ function App() {
 
   const deletePost = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/posts/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
         method: 'DELETE',
       })
       if (response.ok) {
