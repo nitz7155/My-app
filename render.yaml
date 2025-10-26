@@ -21,6 +21,11 @@ projects:
                 fromDatabase: 
                   name: postgres-db
                   property: connectionString
+              - key: REACT_ORIGIN
+                fromService: 
+                  type: web
+                  name: react-server
+                  property: host
             autoDeploy: true
 
           - type: web 

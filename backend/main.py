@@ -16,7 +16,7 @@ ENV_PATH = Path(__file__).parent / '.env'
 load_dotenv(ENV_PATH)
 
 # 환경변수 가져오기 
-PROD_ORIGIN=os.getenv('PROD_ORIGIN')
+PROD_ORIGIN=os.getenv('REACT_ORIGIN')
 DEV_ORIGIN=os.getenv('DEV_ORIGIN')
 
 app = FastAPI()

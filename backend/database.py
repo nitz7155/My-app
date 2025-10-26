@@ -9,7 +9,7 @@ from pathlib import Path
 ENV_PATH = Path(__file__).parent / '.env'
 load_dotenv(ENV_PATH)
 
-# Render에서는 DATABASE_URL을 직접 제공하므로 우선적으로 사용
+# render.yaml에 직접 지정한 환경변수 가져오기 
 DB_URL = os.getenv("DB_URL")
 
 if not DB_URL:
