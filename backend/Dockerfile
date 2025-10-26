@@ -18,13 +18,13 @@ RUN pip install --no-cache-dir --upgrade pip
 
 # 의존성 파일만 먼저 복사 (캐싱 최적화)
 # COPY pyproject.toml uv.lock ./
-COPY requirement.txt ./
+COPY requirements.txt ./
 
 # 의존성 설치
 # RUN pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv
 # RUN uv pip install --system .
 # RUN uv sync --frozen --no-dev  -> 가상환경 사용 
-RUN pip install --no-cache-dir -r requirement.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 소스 코드 복사
 COPY . .
