@@ -21,8 +21,7 @@ projects:
                 fromDatabase: 
                   name: postgres-db
                   property: connectionString
-            envVarGroups:
-              - My-app-env
+              - fromGroup: My-app-env
             autoDeploy: true
 
           - type: web 
@@ -34,6 +33,6 @@ projects:
             rootDir: frontend 
             dockerfilePath: ./Dockerfile
             dockerContext: .
-            envVarGroups:
-              - My-app-env
+            envVars: 
+              - fromGroup: My-app-env
             autoDeploy: true
