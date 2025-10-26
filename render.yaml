@@ -25,7 +25,7 @@ projects:
                 fromService: 
                   type: web
                   name: react-server
-                  property: host
+                  property: hostWithProtocol
             autoDeploy: true
 
           - type: web 
@@ -42,5 +42,5 @@ projects:
                 fromService: 
                   type: web 
                   name: fastapi-server
-                  property: host
+                  property: hostWithProtocol
             autoDeploy: true
