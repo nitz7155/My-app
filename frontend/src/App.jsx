@@ -13,6 +13,10 @@ function App() {
   // 빌드 시점에 환경변수가 정적으로 치환되어 번들에 포함됨
   // 로컬 개발시 fallback으로 localhost:8000 사용
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  
+  // 🔍 디버깅용 - 실제 사용하는 API URL 확인
+  console.log('환경변수 VITE_API_URL:', import.meta.env.VITE_API_URL)
+  console.log('실제 사용하는 API_URL:', API_URL)
 
   useEffect(() => {
     fetchPosts()

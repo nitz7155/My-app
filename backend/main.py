@@ -19,6 +19,10 @@ load_dotenv(ENV_PATH)
 PROD_ORIGIN=os.getenv('REACT_ORIGIN')
 DEV_ORIGIN=os.getenv('DEV_ORIGIN')
 
+# 🔍 디버깅용 - CORS 설정 확인
+print(f"PROD_ORIGIN (React 서버): {PROD_ORIGIN}")
+print(f"DEV_ORIGIN (로컬 개발): {DEV_ORIGIN}")
+
 app = FastAPI()
 
 # CORS 설정
