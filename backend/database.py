@@ -5,28 +5,23 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 import os 
 from pathlib import Path
 
-# ORM으로 데이터베이스와 python을 연결하기 
-# 1. 엔진 2. 세션 3. Base 모델
-
 # 환경변수 설정
 ENV_PATH = Path(__file__).parent / '.env'
 load_dotenv(ENV_PATH)
 
 # Render에서는 DATABASE_URL을 직접 제공하므로 우선적으로 사용
-DB_URL = os.getenv("DATABASE_URL")
+DB_URL = os.getenv("DB_URL")
 
 if not DB_URL:
     # 로컬 개발환경에서는 개별 환경변수 사용
-    DB_USER = os.getenv("DB_USER", "user")
-    DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
-    DB_HOST = os.getenv("DB_HOST", "localhost")
-    DB_NAME = os.getenv("DB_NAME", "database_name")
-    DB_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+    DEV_DB_USER = os.getenv("DEV_DB_USER", "user")
+    DEV_DB_PASSWORD = os.getenv("DEV_DB_PASSWORD", "password")
+    DEV_DB_HOST = os.getenv("DEV_DB_HOST", "localhost")
+    DEV_DB_NAME = os.getenv("DEV_DB_NAME", "database_name")
+    DB_URL = f"postgresql://{DEV_DB_USER}:{DEV_DB_PASSWORD}@{DEV_DB_HOST}/{DEV_DB_NAME}"
 
 # 엔진
-engine = create_engine(
-    DB_URL
-)
+engine = create_engine(DB_URL)
 
 # 세션 
 SessionLocal = sessionmaker(autocommit=False,  # 확정을 자동으로 주지 않겠다 
