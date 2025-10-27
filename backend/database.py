@@ -12,14 +12,6 @@ load_dotenv(ENV_PATH)
 # render.yaml에 직접 지정한 환경변수 가져오기 
 DB_URL = os.getenv("DB_URL")
 
-if not DB_URL:
-    # 로컬 개발환경에서는 개별 환경변수 사용
-    DEV_DB_USER = os.getenv("DEV_DB_USER", "user")
-    DEV_DB_PASSWORD = os.getenv("DEV_DB_PASSWORD", "password")
-    DEV_DB_HOST = os.getenv("DEV_DB_HOST", "localhost")
-    DEV_DB_NAME = os.getenv("DEV_DB_NAME", "database_name")
-    DB_URL = f"postgresql://{DEV_DB_USER}:{DEV_DB_PASSWORD}@{DEV_DB_HOST}/{DEV_DB_NAME}"
-
 # 엔진
 engine = create_engine(DB_URL)
 

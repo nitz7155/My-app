@@ -17,6 +17,7 @@ load_dotenv(ENV_PATH)
 
 # 환경변수 가져오기 
 REACT_HOST = os.getenv('REACT_HOST', "react-server")
+
 if REACT_HOST.startswith('http'):
     ORIGIN = REACT_HOST
 else:
@@ -24,11 +25,10 @@ else:
 
 app = FastAPI()
 
-print("ORIGIN", ORIGIN)
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[ORIGIN],
+    allow_origins=[REACT_HOST],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

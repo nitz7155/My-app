@@ -1,7 +1,7 @@
 # docker-compose.yml
 services:
   postgres: # postgresql은 별도의 dockerfile 없이 바로 사용 가능
-    image: postgres:18  # 최신 LTS 버전 사용
+    image: postgres:18 
     container_name: postgres-db
     # environment: .env 파일의 변수를 자동으로 읽어옴 (dotenv처럼 작동)
     environment:
@@ -32,11 +32,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    # volumes:
-    #   # Bind Mount: 개발용 - 소스코드 실시간 반영
-    #   - ./backend:/backend
-    # # command: Dockerfile의 CMD를 덮어씀
-    # command: uvicorn main:app --host 0.0.0.0 --port 8000
 
   # React 프론트엔드 (위에서 만든 Dockerfile 사용)
   frontend:
