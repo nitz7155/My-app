@@ -6,7 +6,7 @@ const getAPIBaseURL = () => {
 
     if (fastAPIHost.startsWith('http')) {
         // 로컬 환경 ex) http://localhost:8000
-        return fastApiHost;
+        return fastAPIHost;
     }
 
     // render의 web service의 도메인은

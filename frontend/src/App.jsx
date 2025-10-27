@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
-import { API_BASE_URL } from '.api/config';
+import { API_BASE_URL } from './api/config';
 
 function App() {
   const [posts, setPosts] = useState([])
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [editingId, setEditingId] = useState(null)
-  const [editingData, setEditingData] = useState({})
-
-  useEffect(() => {
-    fetchPosts()
+  const [editingId, setEditingId] = useState(null)(() => {
+      fetchPosts()
   }, [])
 
+    const [editingData, setEditingData] = useState({})
+
+  useEffect
   const fetchPosts = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/posts`)
